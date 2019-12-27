@@ -1,0 +1,50 @@
+#div1
+{
+text-align: center;
+margin-left: 23%;
+margin-right: 23%;
+
+}
+
+body {
+    text-align: center;
+}
+
+h1{
+    margin-bottom: -20px;
+}
+
+p {
+    margin-top: -0px;
+    margin-bottom: -0px;
+}
+#velocity {
+        font-size : 60px;
+}
+
+.minmaxVelocity {
+    font-size : 20px;
+}
+
+.small {
+    font-size : 8px;
+    text-align: right;
+    margin-top: -8px;
+}
+
+table#tableAmbient {
+	width:100%;
+	text-align:center;
+}
+
+// img {
+//	width: 200%
+// }
+
+.aligncenter {
+	text-align: center;
+	overflow: auto;
+
+	max-width: 2000;  // or width instead of max-width
+	// max-height: 600px; // or height instead of max-height
+}

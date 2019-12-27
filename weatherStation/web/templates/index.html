@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de">
+	<head>
+		<meta charset="utf-8"/>
+		<title>Wetterstation Hauptzentrale</title>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/styles.css') }}">
+	</head>
+	<body>
+		<h1>Windgeschwindigkeit</h1>
+		<h2>Hauptzentrale</h2>
+		<div id="div1">
+			<hr>
+			<p id="velocity">{{velocity}} km/h</p>
+			<p class="minmaxVelocity">max: {{maxVelocity}} km/h</p>
+			<p class="minmaxVelocity">min: {{minVelocity}} km/h</p>
+			<br>
+			<p class="minmaxVelocity">Windstärke (Beaufort): {{beaufort}}  - {{beaufort_desc}}</p>
+			<p class="minmaxVelocity">{{beaufort_desc_land}}</p>
+			<hr>
+			<p class="small">Wert der letzten {{range}} Minuten</p>
+			<br>
+			<p>
+				{{date}}
+				<br>
+				{{time}} Uhr
+			</p>
+			<br>
+			<hr>
+			<table id="tableAmbient">
+			<tr>
+				<th></th>	
+				<th>Temperatur</th>
+				<th>Luftdruck</th>
+				<th>rel. Luftfeuchte</th>
+			</tr>
+			<tr>
+				<td>Innen</td>
+				<td>{{temperature}} °C</td>
+				<td rowspan="3">{{pressure}} hPa</td>
+				<td>{{humidity}} %</td>
+			</tr>
+			<tr>
+				<td>Außen</td>
+				<td>{{temperatureDHT22}} °C</td>
+				<td>{{humidityDHT22}} %</td>
+			</tr>
+			</table>
+		</div><br><br>
+		<div class="aligncenter">
+			<img src="{{ url_for('static',filename='groupChart.png') }}" alt="- last 24 hours data chart -">
+		</div>
+	</body>
+</html>
