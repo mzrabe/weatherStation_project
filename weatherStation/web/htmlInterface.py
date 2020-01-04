@@ -5,6 +5,7 @@ from flask import Flask, url_for, request, render_template
 import time as time
 import numpy as np
 import os
+import re
 
 from weatherStation.util import beaufort as btf, logBME280, logDHT22, aneometer
 from weatherStation.config import configs
@@ -21,8 +22,40 @@ windlogsDir = configs.getLogDirPath(aneometer.CONFIG_FILE_NAME)
 bme280Dir = configs.getLogDirPath(logBME280.CONFIG_FILE_NAME)
 dht22Dir = configs.getLogDirPath(logDHT22.CONFIG_FILE_NAME)
 
+CONFIG_FILE_NAME = 'website'
 
 app = Flask(__name__)
+
+def load_config_parameter():
+    configs.get_config_parameter(CONFIG_FILE_NAME)
+    host_pattern = r'^host=((\d{1,3}\.){3}(\d{1,3}))'
+    port_pattern = r'^port=(\d{1,5})'
+    debug_pattern =r'^debug=(true|false)?'
+
+    parameter = dict(host='127.0.0.1', port=4242, debug=False)
+
+    for l in configs.get_config_parameter(CONFIG_FILE_NAME):
+        match = re.search(host_pattern, l)
+        if match is not None:
+            parameter['host'] = match.group(1)
+            continue
+
+        match = re.search(port_pattern, l)
+        if match:
+            parameter['port'] = match.group(1)
+            continue
+
+        match = re.search(debug_pattern, l)
+        if match:
+            if match.group(1) == 'true':
+                parameter['debug'] = True
+            else:
+                parameter['debug'] = False
+            continue
+    return parameter
+
+
+
 
 
 def calcVelocity(fname, start, stop):
@@ -105,14 +138,16 @@ def index():
 
     if os.path.isfile(windlogsDir + '/' + fileName) == False:
         velocity, maxVelocity, minVelocity = '-', '-', '-'
+        beaufort_scale = [0, 0, '-', '-', '-']
     else:
         pastTime = timeNow - 60 * timeSpan  # [s]
         velocity, maxVelocity, minVelocity = calcVelocity(fileName, pastTime, timeNow)
+        beaufort_scale = btf.BEAUFORT_SCALAR[btf.fetchIndex(float(velocity) / 3.6)]
 
     temperature, pressure, humidity = fetchLastBME280Data(bme280Dir + '/' + bme280FileName)
     temperatureDHT22, humidityDHT22 = fetchLastDHT22Data(dht22Dir + '/' + dht22FileName)
 
-    beaufort_scale = btf.BEAUFORT_SCALAR[btf.fetchIndex(float(velocity) / 3.6)]
+
 
     date = time.strftime('%d. %B %Y', time.localtime(timeNow))
     timeRange = time.strftime('%H:%M', time.localtime(timeNow))
@@ -125,7 +160,7 @@ def index():
                            minVelocity=minVelocity, date=date, time=timeRange, range=timeSpan)
 
 def run_website():
-    app.run(host='192.168.178.23', port=4242, debug=True)
+    app.run(**load_config_parameter())
 
 if __name__ == '__main__':
     run_website()

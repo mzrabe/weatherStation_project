@@ -175,7 +175,7 @@ def plotWindLogChart(data):
     plt.savefig('test.png',format='png', bbox_inches='tight')
     print('test.png','saved as png ...')
     
-def plotHoureWindLogChart(data, start=None, end=None, fileName=None, figsize=configs.fig_size, title=None):
+def hourly_average_wind_velocity(data, start=None, end=None, fileName=None, figsize=configs.fig_size, title=None):
     """
     Make a plot of the given wind log data. Before plotting the values averaging
     before for each time interval.
@@ -190,6 +190,10 @@ def plotHoureWindLogChart(data, start=None, end=None, fileName=None, figsize=con
     fileName : file name of the chart to save
     figsize : size of the chart in inches
     title : titel of the chart
+
+    Returns
+    ----------
+    @return - list with the hourly average wind velocity, [time, wind velocity]
     """
     
     if start == None:
@@ -198,7 +202,6 @@ def plotHoureWindLogChart(data, start=None, end=None, fileName=None, figsize=con
         end = data[-1]
     
     xValues = []
-    labels = [[],[]]
     yValues = []
     
     # time interval, one houre in milliseconds
@@ -228,55 +231,10 @@ def plotHoureWindLogChart(data, start=None, end=None, fileName=None, figsize=con
         
         xValues.append((startTime+endTime)/2.0)
         yValues.append(mean)
-        
-        # get full houre time before xValue[-1]
-        xlabelTime = round(xValues[-1]/3600000.-0.5)*3600000
-        # add xticks label coordinate (time value on x axis)
-        labels[0].append(xlabelTime)
-        # add the corresponding time as string
-        labels[1].append(time.strftime('%H:%M',time.localtime(xlabelTime/1000.)))
-        
+
         startTime=endTime
-    
-    # get full houre time before xValue[-1]
-    # xlabelTime = round(startTime/3600000.+0.5)*3600000
-    # labels[0].append(xlabelTime)
-    # labels[1].append(time.strftime('%H:%M',time.localtime(xlabelTime/1000.)))
-    
-    # todo Den Part noch auslagern !!! In dieser Methode besser nur die Daten generieren.
-    #print 'Start plotting ...'
-    # Plot the wind velocity chart
-    fig = plt.figure(figsize=figsize)
-    ax = plt.subplot(111)
-    
-    if title != None:
-        plt.title(title)
-        
-    plt.xlabel('time')
-    plt.ylabel('wind velocity [km/h]')
-    
-    ax.plot(xValues,yValues,'-',label='hourly average',linewidth=1)
-    
-    # generate the x axis labels
-    #print 'xticks ...', labels
-    plt.xticks(np.array(labels[0]), labels[1], rotation=45)
-    #print 'legend'
-    #plt.legend()
-    plt.ylim(ymin=0)
-    plt.xlim(labels[0][0]-timeInterval/2.0,labels[0][-1]+3*timeInterval/2.0)
-    plt.grid(linestyle='dashed',color='lightgray')
-    
-    # get the mean date of the time values for the name of the file
-    if fileName == None:
-        fileName = 'hourValues_windlogs_'+time.strftime(datePattern,time.localtime(xValues[int(len(xValues)/2)]/1000.))+'.png'
-        
-    print 'savefig',configs.getLogDirPath(CONFIG_FILE_NAME)+fileName
-    
-    plt.savefig(configs.getLogDirPath(CONFIG_FILE_NAME)+fileName,format='png', bbox_inches='tight')
-    #print 'close'
-    plt.close()
-    #print 'test.png','saved as png ...
-    
+
+    return [xValues,yValues]
 ##
 # todo Das muss noch angepasst werden
 def plotWindVelocityCharts(winlogsDir = configs.getLogDirPath(CONFIG_FILE_NAME)):
