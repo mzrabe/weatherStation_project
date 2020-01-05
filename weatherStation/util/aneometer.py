@@ -182,7 +182,7 @@ def plotWindLogChart(data):
 	print('test.png', 'saved as png ...')
 
 
-def hourly_average_wind_velocity(data, start=None, end=None, fileName=None, figsize=configs.fig_size, title=None):
+def hourly_average_wind_velocity(data, start=None, end=None):
 	"""
 	Make a plot of the given wind log data. Before plotting the values averaging
 	before for each time interval.

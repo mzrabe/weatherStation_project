@@ -25,11 +25,6 @@
 				{{time}} Uhr
 			</p>
 			<br>
-		</div>
-		<div class="aligncenter">
-			<img src="{{ url_for('static',filename='windChart.png') }}" alt="- last 24 hours wind velocity chart -">
-		</div>
-		<div id="div1">
 			<hr>
 			<table id="tableAmbient">
 			<tr>
@@ -51,6 +46,9 @@
 			</tr>
 			</table>
 		</div><br><br>
+				<div class="aligncenter">
+			<img src="{{ url_for('static',filename='windChart.png') }}" alt="- last 24 hours wind velocity chart -">
+		</div><br>
 		<div class="aligncenter">
 			<img src="{{ url_for('static',filename='groupChart.png') }}" alt="- last 24 hours data chart -">
 		</div>
