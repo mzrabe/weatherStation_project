@@ -2,6 +2,8 @@
 
 import time
 import sys
+import matplotlib
+matplotlib.use('Agg')
 from weatherStation.util import logBME280, aneometer, logDHT22, plotChart
 from weatherStation.web import htmlInterface
 
