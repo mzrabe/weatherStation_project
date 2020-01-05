@@ -18,10 +18,9 @@ WEB_SERVICE = ['--website']
 if __name__ == '__main__':
 	for s in sys.argv:
 		if s in GROUP_CHART:
-			# todo : replace time.time.now()
 			plotChart.plot_group_chart(
-				logBME280.get_24_hours_data(time.mktime(time.strptime('2019-11-26 23:59', '%Y-%m-%d %H:%M'))),
-				logDHT22.get_24_hours_data(time.mktime(time.strptime('2019-11-26 23:59', '%Y-%m-%d %H:%M'))))
+				logBME280.get_24_hours_data(time.time()),
+				logDHT22.get_24_hours_data(time.time()))
 		elif s in LOG_DHT22:
 			print('Log DHT22 sensor.')
 			logDHT22.log()
@@ -38,7 +37,7 @@ if __name__ == '__main__':
 			print('Print wind velocity chart.')
 			plotChart.plot_hour_wind_log_chart(
 				aneometer.hourly_average_wind_velocity(
-					aneometer.get24HouresData(time.mktime(time.strptime('2019-07-01 23:59', '%Y-%m-%d %H:%M'))),
-					fileName='windChart.png'))
+					aneometer.get24HouresData(time.time())),
+					fileName='windChart.png')
 		else:
 			print(s, ' unknown command.')

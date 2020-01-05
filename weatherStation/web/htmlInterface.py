@@ -43,7 +43,7 @@ def load_config_parameter():
 
 		match = re.search(port_pattern, l)
 		if match:
-			parameter['port'] = match.group(1)
+			parameter['port'] = int(match.group(1))
 			continue
 
 		match = re.search(debug_pattern, l)
@@ -53,6 +53,7 @@ def load_config_parameter():
 			else:
 				parameter['debug'] = False
 			continue
+	print(parameter)
 	return parameter
 
 
@@ -109,11 +110,12 @@ def fetchLastDHT22Data(fName):
 	"""
 	if os.path.isfile(fName) == False:
 		return "-", "-"
-
+	print(fName)
 	# get the data from the file, skip the first line (header)
 	data = [x.strip('\n').split(',') for x in open(fName, 'r').readlines()[1:]]
+	print(data)
 	# temperature, , humidity
-	if len(data) == 0:
+	if len(data) == 0 or len(data[-1]) != 5:
 		return '-', '-'
 
 	temperature = '-'

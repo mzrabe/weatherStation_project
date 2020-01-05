@@ -205,7 +205,7 @@ def plot_hour_wind_log_chart(data, fileName=None, figsize=configs.fig_size, titl
 	plt.grid(linestyle='dashed', color='lightgray')
 
 	# get the mean date of the time values for the name of the file
-	if fileName == None:
+	if fileName is None:
 		fileName = 'hourValues_windlogs_' + time.strftime(aneometer.datePattern, time.localtime(
 			data[0][int(len(data[0]) / 2)] / 1000.)) + '.png'
 

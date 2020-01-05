@@ -43,7 +43,7 @@ def getLogDirPath(name):
 		# Read the first line of the configuration file
 		# which specified the path where the log files
 		# should store.
-		return configFile.readline()
+		return configFile.readline().strip()
 	else:
 		print('Please define the path where the log files should stored in the config-file :', configPath)
 		return ''
