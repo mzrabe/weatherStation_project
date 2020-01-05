@@ -20,21 +20,21 @@ if __name__ == '__main__':
                 logBME280.get_24_hours_data(time.mktime(time.strptime('2019-11-26 23:59', '%Y-%m-%d %H:%M'))),
                 logDHT22.get_24_hours_data(time.mktime(time.strptime('2019-11-26 23:59', '%Y-%m-%d %H:%M'))))
         elif s in LOG_DHT22:
-            print 'Log DHT22 sensor.'
+            print('Log DHT22 sensor.')
             logDHT22.log()
         elif s in LOG_BME280:
-            print 'Log BME280 sensor.'
+            print('Log BME280 sensor.')
             logBME280.log()
         elif s in LOG_WIND:
-            print 'Start log cup anemometer.'
+            print('Start log cup anemometer.')
             aneometer.start_logging()
         elif s in WEB_SERVICE:
-            print 'Start website'
+            print('Start website')
             htmlInterface.run_website()
         elif s in WIND_CHART:
-            print 'Print wind velocity chart.'
+            print('Print wind velocity chart.')
             plotChart.plot_hour_wind_log_chart(
                 aneometer.hourly_average_wind_velocity(
                 aneometer.get24HouresData(time.mktime(time.strptime('2019-07-01 23:59', '%Y-%m-%d %H:%M'))), fileName='windChart.png'))
         else:
-            print s, ' unknown command.'
+            print(s, ' unknown command.')

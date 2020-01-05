@@ -44,5 +44,5 @@ def calcBtf(v):
 
 if __name__ == '__main__':
 	velocity = 20
-	print BEAUFORT_SCALAR[fetchIndex(velocity)]
-	print calcBtf(velocity)
+	print(BEAUFORT_SCALAR[fetchIndex(velocity)])
+	print(calcBtf(velocity))

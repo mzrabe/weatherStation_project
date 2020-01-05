@@ -102,3 +102,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# my own stuff
+weatherStation/logData/*
+.idea

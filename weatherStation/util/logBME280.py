@@ -132,7 +132,7 @@ def plot_24_hours(date=time.time(), figsize=configs.fig_size, title=None, file_n
         plt.title(title)
 
     data = get_24_hours_data(date)
-    print data[TIME]
+    print(data[TIME])
 
     fig, host = plt.subplots(figsize=figsize)
     fig.subplots_adjust(right=0.9)
@@ -192,7 +192,7 @@ def plot_24_hours(date=time.time(), figsize=configs.fig_size, title=None, file_n
     if file_name is None:
         # file_name = 'hourValues_windlogs_'+time.strftime(datePattern, data[TIMESTAMP][int(len(data[TIMESTAMP])/2)])+'.png'
         file_name = 'testBME280.png'
-    print 'savefig', configs.getLogDirPath(CONFIG_FILE_NAME) + file_name
+    print('savefig', configs.getLogDirPath(CONFIG_FILE_NAME) + file_name)
 
     plt.savefig(configs.getLogDirPath(CONFIG_FILE_NAME) + file_name, format='png', bbox_inches='tight')
     plt.close()

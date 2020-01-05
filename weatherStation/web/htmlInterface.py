@@ -70,9 +70,9 @@ def calcVelocity(fname, start, stop):
                 xfloat = float(x)
                 lineNumber = lineNumber + 1
             except ValueError:
-                # print 'ValueError in file',fname
+                # print('ValueError in file',fname)
                 error = error + 'ValueError in file' + fname
-                # print x,'in line',lineNumber+1,'cannot convert in a float!'
+                # print(x,'in line',lineNumber+1,'cannot convert in a float!')
                 error = error + str(x) + 'in line' + str(lineNumber + 1) + 'cannot convert in a float!'
                 break
         return (error, '', '')

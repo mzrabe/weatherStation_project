@@ -242,7 +242,7 @@ def plotWindVelocityCharts(winlogsDir = configs.getLogDirPath(CONFIG_FILE_NAME))
         files = sorted(files)
     
         newFormateTime = time.mktime(time.strptime('2018-03-05','%Y-%m-%d'))
-        print newFormateTime
+        print(newFormateTime)
     
         for fname in files:
             if fname.replace('.csv','.png') not in files:
@@ -258,14 +258,14 @@ def plotWindVelocityCharts(winlogsDir = configs.getLogDirPath(CONFIG_FILE_NAME))
 			continue
 		# does the data already plotted
 		if alreadyAsPNG(files,fname[-14:-4]):
-			print 'data of file -',fname,'- already plotted'
+			print('data of file -',fname,'- already plotted')
 			continue
 			
 		# time of data file in seconds
 		timeOfDataFile = time.mktime(time.strptime(fname,'windLogs_%Y-%m-%d.csv'))
 		
 		if startDate >= timeOfDataFile:
-			print 'file',fname,'ignored (startDate)'
+			print('file',fname,'ignored (startDate)')
 			continue
 		if newFormateTime > timeOfDataFile:
 			# old formate: from,average,min,max
@@ -273,19 +273,19 @@ def plotWindVelocityCharts(winlogsDir = configs.getLogDirPath(CONFIG_FILE_NAME))
 			# print 'Get data from ',fname,'...'
 			#print 'file',fname,'ignored (oldFileFormate)'
 			#continue
-			print 'Get data from ',fname,'...'
+			print('Get data from ',fname,'...')
 			try:
 				data = np.array([float(x.split(',')[0]) for x in open(windlogsDir+'/'+fname,'r').readlines()],dtype=float)
 			except ValueError:
-				print 'ValueError'
+				print('ValueError')
 				lineNumber = 1
 				for x in open(windlogsDir+'/'+fname,'r').readlines():
 					try:
 						xfloat = float(x)
 						lineNumber = lineNumber + 1
 					except ValueError:
-						print 'ValueError in file',fname
-						print x,'in line',lineNumber+1,'cannot convert in a float!'
+						print('ValueError in file',fname)
+						print(x,'in line',lineNumber+1,'cannot convert in a float!')
 						break
 				break
 			
@@ -391,7 +391,7 @@ class saveThread(threading.Thread):
 			write_time_in_log_file(logs)
 
 def start_logging():
-	print 'Start wind logging script ...'
+	print('Start wind logging script ...')
 	hallSig = False
 	global logs
 
@@ -402,11 +402,11 @@ def start_logging():
 		into the log file, if the script is terminate
 		of the signal SOGABRT, SIGINT or SIGTERM
 		"""
-		print 'Clean and save logs befor exit ...'
+		print('Clean and save logs befor exit ...')
 		gpio.cleanup()
 		st = saveThread(logs[:])
 		st.start()
-		print 'Exit script ...\n'
+		print('Exit script ...\n')
 		os._exit(0)
 
 
@@ -456,7 +456,7 @@ def start_logging():
 	# clean up the GPIO interface
 	gpio.cleanup()
 #	writeTimeInLogFile(getAverageMinMaxValues(logs))
-	print 'End of logging ...'
+	print('End of logging ...')
 # END main()
 
 if __name__ == "__main__":

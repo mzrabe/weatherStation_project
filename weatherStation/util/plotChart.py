@@ -39,7 +39,7 @@ def plot_temperature_chart(inner_temperature, outer_temperature, figsize=configs
     plt.legend()
 
     # get the mean date of the time values for the name of the file
-    print 'savefig', configs.getLogDirPath(CONFIG_FILE_NAME) + file_name
+    print('savefig', configs.getLogDirPath(CONFIG_FILE_NAME) + file_name)
 
     plt.savefig(configs.getLogDirPath(CONFIG_FILE_NAME) + file_name, format='png', bbox_inches='tight')
     plt.close()
@@ -66,7 +66,7 @@ def plot_humidity_chart(inner_humidity, outer_humidity, figsize=configs.fig_size
     plt.legend()
 
     # get the mean date of the time values for the name of the file
-    print 'savefig', configs.getLogDirPath(CONFIG_FILE_NAME) + file_name
+    print('savefig', configs.getLogDirPath(CONFIG_FILE_NAME) + file_name)
 
     plt.savefig(configs.getLogDirPath(CONFIG_FILE_NAME) + file_name, format='png', bbox_inches='tight')
     plt.close()
@@ -93,7 +93,7 @@ def plot_pressure_chart(pressure, figsize=configs.fig_size, title=None, file_nam
     plt.legend()
 
     # get the mean date of the time values for the name of the file
-    print 'savefig', configs.getLogDirPath(CONFIG_FILE_NAME) + file_name
+    print('savefig', configs.getLogDirPath(CONFIG_FILE_NAME) + file_name)
 
     plt.savefig(configs.getLogDirPath(CONFIG_FILE_NAME) + file_name, format='png', bbox_inches='tight')
     plt.close()
@@ -134,7 +134,7 @@ def plot_group_chart(inner, outer, figsize=configs.fig_size_group, title=None, f
     ax3.legend()
 
     # get the mean date of the time values for the name of the file
-    print 'savefig', configs.getLogDirPath(CONFIG_FILE_NAME) + file_name
+    print('savefig', configs.getLogDirPath(CONFIG_FILE_NAME) + file_name)
 
     plt.savefig(configs.getLogDirPath(CONFIG_FILE_NAME) + file_name, format='png', bbox_inches='tight')
     plt.close()
@@ -198,7 +198,7 @@ def plot_hour_wind_log_chart(data, fileName=None, figsize=configs.fig_size, titl
         fileName = 'hourValues_windlogs_' + time.strftime(aneometer.datePattern, time.localtime(
             data[0][int(len(data[0]) / 2)] / 1000.)) + '.png'
 
-    print 'savefig', configs.getLogDirPath(CONFIG_FILE_NAME) + fileName
+    print('savefig', configs.getLogDirPath(CONFIG_FILE_NAME) + fileName)
 
     plt.savefig(configs.getLogDirPath(CONFIG_FILE_NAME) + fileName, format='png', bbox_inches='tight')
     plt.close()
