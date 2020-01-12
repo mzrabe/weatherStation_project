@@ -46,9 +46,9 @@ def log():
 	pathToLogDir = configs.getLogDirPath(CONFIG_FILE_NAME)
 
 	# current date
-	currentDate = datetime.now().strftime(file_name_pattern)
+	currentDate = datetime.now()
 	# create name of current file of day
-	filename = os.path.join(pathToLogDir, 'dht22_data_' + currentDate + '.csv')
+	filename = os.path.join(pathToLogDir, currentDate.strftime(file_name_pattern))
 
 	with open(filename, 'a') as logfile:
 		# create new datawriter
@@ -65,11 +65,19 @@ def log():
 		# get sensor data
 		humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, 18)
 
-		data[DATE] = currentDate
+		data[DATE] = currentDate.strftime(datePattern)
 		data[TIME] = time
-		data[TEMPERATURE] = "{0:.2f}".format(temperature)
+		try:
+			float(temperature)
+			data[TEMPERATURE] = "{0:.2f}".format(temperature)
+		except (ValueError, TypeError):
+			data[TEMPERATURE] = "-"
 		data[PRESSURE] = "-"
-		data[HUMIDITY] = "{0:.2f}".format(humidity)
+		try:
+			float(humidity)
+			data[HUMIDITY] = "{0:.2f}".format(humidity)
+		except (ValueError, TypeError):
+			data[HUMIDITY] = "-"
 
 		# write a now row into logging file
 		datawriter.writerow(data)

@@ -53,7 +53,7 @@ def load_config_parameter():
 			else:
 				parameter['debug'] = False
 			continue
-	print(parameter)
+#	print(parameter)
 	return parameter
 
 
@@ -113,7 +113,7 @@ def fetchLastDHT22Data(fName):
 	print(fName)
 	# get the data from the file, skip the first line (header)
 	data = [x.strip('\n').split(',') for x in open(fName, 'r').readlines()[1:]]
-	print(data)
+#	print(data)
 	# temperature, , humidity
 	if len(data) == 0 or len(data[-1]) != 5:
 		return '-', '-'

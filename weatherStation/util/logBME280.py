@@ -43,10 +43,10 @@ def log():
 	pathToLogDir = configs.getLogDirPath(CONFIG_FILE_NAME)
 
 	# current date
-	currentDate = datetime.now().strftime(file_name_pattern)
+	currentDate = datetime.now()
 	# create name of current file of day
-	filename = os.path.join(pathToLogDir, 'bme280_data_' + currentDate + '.csv')
-
+	filename = os.path.join(pathToLogDir, currentDate.strftime(file_name_pattern))
+	print(filename)
 	with open(filename, 'a') as logfile:
 		# create new datawriter
 		datawriter = csv.DictWriter(logfile, delimiter=',', lineterminator='\n', fieldnames=field_names)
@@ -55,19 +55,19 @@ def log():
 			datawriter.writeheader()
 
 		data = {}
-
+		
 		# get current time {HH:MM:SS}
 		time = datetime.now().strftime(timePattern)
 
 		# get sensor data
 		temperature, pressure, humidity = bme280.readBME280All()
 
-		data[DATE] = currentDate
+		data[DATE] = currentDate.strftime(datePattern)
 		data[TIME] = time
 		data[TEMPERATURE] = "{0:.2f}".format(temperature)
 		data[PRESSURE] = "{0:.2f}".format(pressure)
 		data[HUMIDITY] = "{0:.2f}".format(humidity)
-
+		print(data)
 		# write a now row into logging file
 		datawriter.writerow(data)
 

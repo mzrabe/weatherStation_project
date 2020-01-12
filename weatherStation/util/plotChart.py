@@ -144,6 +144,10 @@ def plot_group_chart(inner, outer, figsize=configs.fig_size_group, title=None, f
 	ax2.legend()
 	ax3.legend()
 
+	# add title
+#	if title is not None:
+#		plt.title(title)
+
 	# get the mean date of the time values for the name of the file
 	print('savefig', configs.getLogDirPath(CONFIG_FILE_NAME) + file_name)
 
@@ -187,7 +191,7 @@ def plot_hour_wind_log_chart(data, fileName=None, figsize=configs.fig_size, titl
 	fig = plt.figure(figsize=figsize)
 	ax = plt.subplot(111)
 
-	if title != None:
+	if title is not None:
 		plt.title(title)
 
 	plt.xlabel('time')
