@@ -111,7 +111,7 @@ def plot_pressure_chart(pressure, figsize=configs.fig_size, title=None, file_nam
 
 def plot_group_chart(inner, outer, figsize=configs.fig_size_group, title=None, file_name='groupChart.png'):
 	fig, (ax1, ax2, ax3) = plt.subplots(3, figsize=figsize, sharex=True, gridspec_kw={'hspace': 0})
-
+	
 	# plot the data
 	ax1.plot(inner[configs.TIMESTAMP], inner[configs.TEMPERATURE], 'r-', label=INNER_TEMPERATURE, linewidth=1)
 	ax1.plot(outer[configs.TIMESTAMP], outer[configs.TEMPERATURE], 'r--', label=OUTER_TEMPERATURE, linewidth=1)
@@ -145,8 +145,10 @@ def plot_group_chart(inner, outer, figsize=configs.fig_size_group, title=None, f
 	ax3.legend()
 
 	# add title
-#	if title is not None:
-#		plt.title(title)
+	if title is not None:
+		st = fig.suptitle(title)
+		st.set_y(0.95)
+		fig.subplots_adjust(top=0.91)
 
 	# get the mean date of the time values for the name of the file
 	print('savefig', configs.getLogDirPath(CONFIG_FILE_NAME) + file_name)
