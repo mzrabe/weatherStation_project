@@ -85,29 +85,32 @@ def log():
 
 def get_data_from_file(file_name, path_to_log_dir=configs.getLogDirPath(CONFIG_FILE_NAME)):
 	"""
-    Fetch the data from the BME280 log file. The file contains date, time
-    temperature, pressure and humidity.
+    Fetch the data from the DHT22 log file. The file contains date, time
+    temperature and humidity.
 
     Returns
     -------
     pandas DataFrame containing the log data in the file
     """
-	if os.path.isfile(path_to_log_dir + file_name):
-		with open(path_to_log_dir + file_name, 'r') as data_file:
-			df = pd.read_csv(
-				data_file,  # relative python path to subdirectory
-				sep=',',  # Tab-separated value file.
-				quotechar="'",  # single quote allowed as quote character
-				dtype={DATE: str, TIME: str, TEMPERATURE: float, PRESSURE: float, HUMIDITY: float},
-				# Parse the salary column as an integer
-				# usecols=['name', 'birth_date', 'salary'].	# Only load the three columns specified.
-				# parse_dates=['birth_date'],     			# Intepret the birth_date column as a date
-				# skiprows=10,         						# Skip the first 10 rows of the file
-				na_values=['.', '??', '-'],  # Take any '.', '-' or '??' values as NA
-			)
-			df[TIMESTAMP] = (df[DATE] + ' ' + df[TIME]).map(
-				lambda x: time.mktime(time.strptime(x, datePattern + ' ' + timePattern)))
-			return df
+	if os.path.isfile(os.path.join(path_to_log_dir,file_name)):
+		with open(os.path.join(path_to_log_dir,file_name), 'r') as data_file:
+			try:
+				df = pd.read_csv(
+					data_file,  # relative python path to subdirectory
+					sep=',',  # Tab-separated value file.
+					quotechar="'",  # single quote allowed as quote character
+					dtype={DATE: str, TIME: str, TEMPERATURE: float, PRESSURE: float, HUMIDITY: float},
+					# Parse the salary column as an integer
+					# usecols=['name', 'birth_date', 'salary'].	# Only load the three columns specified.
+					# parse_dates=['birth_date'],     			# Intepret the birth_date column as a date
+					# skiprows=10,         						# Skip the first 10 rows of the file
+					na_values=['.', '??', '-'],  # Take any '.', '-' or '??' values as NA
+				)
+				df[TIMESTAMP] = (df[DATE] + ' ' + df[TIME]).map(
+					lambda x: time.mktime(time.strptime(x, datePattern + ' ' + timePattern)))
+				return df
+			except pd.errors.EmptyDataError:
+				return pd.DataFrame()
 	else:
 		return pd.DataFrame()
 
@@ -127,6 +130,35 @@ def get_24_hours_data(t2):
 	# create a new column seconds
 	mask = (data[TIMESTAMP] >= t1) & (data[TIMESTAMP] <= t2)
 
+	if len(data) <= 0:
+		return data
+	else:
+		return data[mask]
+
+def get_data(starttime, endtime):
+	"""
+	@param starttime - start time in [milliseconds]
+	@param endtime - end time in [milliseconds]
+	"""
+	data = pd.DataFrame()
+	
+	# loop through the loging file to collect all the data between the 
+	# start and end time
+	for fname in os.listdir(configs.getLogDirPath(CONFIG_FILE_NAME)):
+		if os.path.isfile(os.path.join(configs.getLogDirPath(CONFIG_FILE_NAME), fname)) == False:
+			continue
+		
+		try:
+			filetime = time.mktime(time.strptime(fname,file_name_pattern))
+		except ValueError:
+			#print fname, 'matchs not the filepattern', file_name_pattern
+			continue
+		if starttime <= filetime and endtime+24*60*60 >= filetime:
+			#print fname
+			data = data.append(get_data_from_file(fname))
+
+	# create a new column seconds
+	mask = (data[TIMESTAMP] >= starttime) & (data[TIMESTAMP] <= endtime+24*60*60)
 	if len(data) <= 0:
 		return data
 	else:
