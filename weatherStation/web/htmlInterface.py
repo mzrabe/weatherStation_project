@@ -72,7 +72,7 @@ def calcVelocity(fname, start, stop):
 				# print('ValueError in file',fname)
 				error = error + 'ValueError in file' + fname
 				# print(x,'in line',lineNumber+1,'cannot convert in a float!')
-				error = error + str(x) + 'in line' + str(lineNumber + 1) + 'cannot convert in a float!'
+				error = error +' '+ str(x) + 'in line' + str(lineNumber + 1) + 'cannot convert in a float!'
 				break
 		return (error, '', '')
 
@@ -142,8 +142,12 @@ def index():
 	else:
 		pastTime = timeNow - 60 * timeSpan  # [s]
 		velocity, maxVelocity, minVelocity = calcVelocity(fileName, pastTime, timeNow)
-		beaufort_scale = btf.BEAUFORT_SCALAR[btf.fetchIndex(float(velocity) / 3.6)]
-
+		try:
+			beaufort_scale = btf.BEAUFORT_SCALAR[btf.fetchIndex(float(velocity) / 3.6)]
+		except ValueError:
+			print('Cannot convert', velocity, 'to float.')
+			beaufort_scale = [0, 0, '-', '-', '-']
+		
 	temperature, pressure, humidity = fetchLastBME280Data(bme280Dir + '/' + bme280FileName)
 	temperatureDHT22, humidityDHT22 = fetchLastDHT22Data(dht22Dir + '/' + dht22FileName)
 

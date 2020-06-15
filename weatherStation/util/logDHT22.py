@@ -16,6 +16,8 @@ matplotlib.style.use('grayscale')
 import Adafruit_DHT
 
 from weatherStation.config import configs
+from weatherStation.util import util
+#from weatherStation.util import Adafruits_DHT_debug
 
 # date pattern
 datePattern = "%Y-%m-%d"
@@ -46,41 +48,68 @@ def log():
 	pathToLogDir = configs.getLogDirPath(CONFIG_FILE_NAME)
 
 	# current date
-	currentDate = datetime.now()
+	current_date = datetime.now()
 	# create name of current file of day
-	filename = os.path.join(pathToLogDir, currentDate.strftime(file_name_pattern))
+	filename = os.path.join(pathToLogDir, current_date.strftime(file_name_pattern))
 
 	with open(filename, 'a') as logfile:
-		# create new datawriter
-		datawriter = csv.DictWriter(logfile, delimiter=',', lineterminator='\n', fieldnames=field_names)
+		# create new data_writer
+		data_writer = csv.DictWriter(logfile, delimiter=',', lineterminator='\n', fieldnames=field_names)
 		# check whether the file is new or empty
 		if logfile.tell() == 0:
-			datawriter.writeheader()
+			data_writer.writeheader()
 
 		data = {}
 
 		# get current time {HH:MM:SS}
-		time = datetime.now().strftime(timePattern)
+		time_str = datetime.now().strftime(timePattern)
+		#TODO
+		# get log date of the last x minutes
+		# filter out the outliers
+		# get the data of the last 60 minutes -> the last 6 values
+		#values = get_24_hours_data(time.time())[-6]
 
-		# get sensor data
+		# get sensor data, as float, if an error occurred a tuple of (None, None) will
+		# return
 		humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, 18)
 
-		data[DATE] = currentDate.strftime(datePattern)
-		data[TIME] = time
-		try:
-			float(temperature)
-			data[TEMPERATURE] = "{0:.2f}".format(temperature)
-		except (ValueError, TypeError):
-			data[TEMPERATURE] = "-"
-		data[PRESSURE] = "-"
-		try:
-			float(humidity)
-			data[HUMIDITY] = "{0:.2f}".format(humidity)
-		except (ValueError, TypeError):
-			data[HUMIDITY] = "-"
+		data[DATE] = current_date.strftime(datePattern)
+		data[TIME] = time_str
 
+		# The sensor DHT22 does not measure the pressure.
+		data[PRESSURE] = "-"
+
+		# In case both values are None
+		# the delivered values from the sensor are invalid.
+		# Additionally check the valid temperature and humidity
+		# range according to the data sheet of the DHT22
+		# {@link https://www.sparkfun.com/datasheets/Sensors/Temperature/DHT22.pdf}
+
+		# TODO Furthermore check if the current measured values
+		#  are outliers
+
+		# check the range of temperature
+		if (-40 <= temperature <= 80) or temperature is not None:
+			data[TEMPERATURE] = "{0:.2f}".format(temperature)
+		else:
+			data[TEMPERATURE] = '-'
+		# check the range of the humidity
+		if (0 <= humidity <= 100) or humidity is not None:
+			data[HUMIDITY] = "{0:.2f}".format(humidity)
+		else:
+			data[HUMIDITY] = '-'
+
+		# Try to approximate the current value with the paste
+		# values since 60 minutes ago
+
+		#TODO hier noch weiter machen
+		# ~ values = values.append(data)
+		# ~ outliers = util.find_outlier(values)
+		# ~ if outliers[-1] == true:
+			
+			
 		# write a now row into logging file
-		datawriter.writerow(data)
+		data_writer.writerow(data)
 
 
 def get_data_from_file(file_name, path_to_log_dir=configs.getLogDirPath(CONFIG_FILE_NAME)):
@@ -137,8 +166,8 @@ def get_24_hours_data(t2):
 
 def get_data(starttime, endtime):
 	"""
-	@param starttime - start time in [milliseconds]
-	@param endtime - end time in [milliseconds]
+	@param starttime - start time in [seconds]
+	@param endtime - end time in [seconds]
 	"""
 	data = pd.DataFrame()
 	
