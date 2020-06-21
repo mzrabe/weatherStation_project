@@ -16,7 +16,7 @@ matplotlib.style.use('grayscale')
 import Adafruit_DHT
 
 from weatherStation.config import configs
-from weatherStation.util import util
+#from weatherStation.util import util
 #from weatherStation.util import Adafruits_DHT_debug
 
 # date pattern
