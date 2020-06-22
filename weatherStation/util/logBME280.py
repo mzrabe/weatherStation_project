@@ -10,10 +10,24 @@ import matplotlib.pyplot as plt
 import time
 import matplotlib.style
 
+# import the required library to read the sensor data
+# from the BME280 sensor. In case the script/module is
+# not running on a raspberry pi a dummy library will import
+# which simulate sensor data.
+if 'raspberrypi' in os.uname():
+	from weatherStation.util import bme280
+else:
+	from weatherStation.util import SensorSimulator as bme280
+
+# Get the system specific configuration which are set up
+# individual from the system user.
+from weatherStation.config import configs
+
 matplotlib.style.use('grayscale')
 
-from weatherStation.config import configs
-from weatherStation.util import bme280
+
+
+
 
 # date pattern
 datePattern = "%Y-%m-%d"
@@ -55,7 +69,7 @@ def log():
 			datawriter.writeheader()
 
 		data = {}
-		
+
 		# get current time {HH:MM:SS}
 		time = datetime.now().strftime(timePattern)
 
