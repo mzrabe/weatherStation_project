@@ -33,9 +33,9 @@ For linux the config file has to greate at this location ~/.config/weatherStatio
 5. anemometer
 
 #### website
-host=\<On which IP is the website reachable.\>
-port=\<On which port is the website reachable.\>
-debug=\<Should the debuging enable or not\>
+- host=\<On which IP is the website reachable.\>
+- port=\<On which port is the website reachable.\>
+- debug=\<Should the debuging enable or not\>
 
 >###### The following pattern is required
 >- host pattern = r'^host=((\d{1,3}\.){3}(\d{1,3}))'
