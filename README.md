@@ -24,7 +24,7 @@ export PYTHONPATH=\<path to the folder weatherStation_project\>
 
 The python script use the packeage appdirs. See [appdirs package][1].
 To define the location of the logfiles you have to create the following files.
-For linux the config file has to greate at this location ~/.config/weatherStation.
+For linux the config file has to create at this location ~/.config/weatherStation.
 
 1. website
 2. dht22
