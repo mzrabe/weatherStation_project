@@ -9,10 +9,10 @@ import matplotlib.pyplot as plt
 from weatherStation.config import configs
 from weatherStation.util import aneometer
 
-INNER_TEMPERATURE = 'inner temperature'
-OUTER_TEMPERATURE = 'outer temperature'
-INNER_HUMIDITY = 'inner humidity'
-OUTER_HUMIDITY = 'outer humidity'
+INNER_TEMPERATURE = 'wall temperature'
+OUTER_TEMPERATURE = 'station temperature'
+INNER_HUMIDITY = 'wall humidity'
+OUTER_HUMIDITY = 'station humidity'
 PRESSURE = 'pressure'
 # name of configuration file
 CONFIG_FILE_NAME = 'configs'

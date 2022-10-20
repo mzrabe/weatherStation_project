@@ -433,17 +433,17 @@ def start_logging():
 	# setting for the GPIO interface
 	gpio.setmode(gpio.BCM)
 	# input of the hall sensor
-	gpio.setup(23, gpio.IN)
+	gpio.setup(24, gpio.IN)
 	# output for the LED, only for testing
-	gpio.setup(24, gpio.OUT)
+	#gpio.setup(24, gpio.OUT)
 
 	# Endless loop which logs time of
 	# a signals from the anemomenter
 	while True:
 		# magnet is in front of the sensor
-		if gpio.input(23) == 0:
+		if gpio.input(24) == 0:
 			# turn LED on, only for testing
-			gpio.output(24, gpio.HIGH)
+			#gpio.output(24, gpio.HIGH)
 
 			# magnet has passed the sensor
 			if hallSig == False:
@@ -458,7 +458,7 @@ def start_logging():
 		# magnet is away of the sensor
 		else:
 			# turn LED out, only for testing
-			gpio.output(24, gpio.LOW)
+			#gpio.output(24, gpio.LOW)
 			# reset the signal to false, to
 			# recognise a new pass of the
 			# magnet along the sensor

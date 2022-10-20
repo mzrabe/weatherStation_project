@@ -71,7 +71,7 @@ def log():
 
 		# get sensor data, as float, if an error occurred a tuple of (None, None) will
 		# return
-		humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, 18)
+		humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, 14)
 
 		data[DATE] = current_date.strftime(datePattern)
 		data[TIME] = time_str
