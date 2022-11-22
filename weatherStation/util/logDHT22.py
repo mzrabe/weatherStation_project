@@ -74,7 +74,7 @@ def log():
 		# get log date of the last x minutes
 		# filter out the outliers
 		# get the data of the last 60 minutes -> the last 6 values
-		#values = get_24_hours_data(time.time())[-6]
+		# values = get_24_hours_data(time.time())[-6]
 
 		# get sensor data, as float, if an error occurred a tuple of (None, None) will
 		# return
@@ -92,8 +92,8 @@ def log():
 		# range according to the data sheet of the DHT22
 		# {@link https://www.sparkfun.com/datasheets/Sensors/Temperature/DHT22.pdf}
 
-		# TODO Furthermore check if the current measured values
-		#  are outliers
+		#TODO Furthermore check if the current measured values
+		# are outliers
 
 		# check the range of temperature
 		if (-40 <= temperature <= 80) or temperature is not None:
