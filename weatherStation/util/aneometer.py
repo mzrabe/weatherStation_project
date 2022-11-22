@@ -20,7 +20,9 @@ import matplotlib
 import matplotlib.pyplot as plt
 import time
 
-import RPi.GPIO as gpio
+if 'raspberrypi' in os.uname():
+	import RPi.GPIO as gpio
+
 import threading
 from signal import *
 

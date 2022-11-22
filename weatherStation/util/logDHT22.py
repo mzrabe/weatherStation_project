@@ -8,16 +8,23 @@ import os
 from datetime import datetime
 import matplotlib.pyplot as plt
 import time
-
 import matplotlib.style
+
+# import the required library to read the sensor data
+# from the BME280 sensor. In case the script/module is
+# not running on a raspberry pi a dummy library will import
+# which simulate sensor data.
+if 'raspberrypi' in os.uname():
+	import Adafruit_DHT
+else:
+	from weatherStation.util import SensorSimulator as Adafruit_DHT
+
+# Get the system specific configuration which are set up
+# individual from the system user.
+from weatherStation.config import configs
 
 matplotlib.style.use('grayscale')
 
-import Adafruit_DHT
-
-from weatherStation.config import configs
-#from weatherStation.util import util
-#from weatherStation.util import Adafruits_DHT_debug
 
 # date pattern
 datePattern = "%Y-%m-%d"
@@ -67,7 +74,7 @@ def log():
 		# get log date of the last x minutes
 		# filter out the outliers
 		# get the data of the last 60 minutes -> the last 6 values
-		#values = get_24_hours_data(time.time())[-6]
+		# values = get_24_hours_data(time.time())[-6]
 
 		# get sensor data, as float, if an error occurred a tuple of (None, None) will
 		# return
@@ -85,8 +92,8 @@ def log():
 		# range according to the data sheet of the DHT22
 		# {@link https://www.sparkfun.com/datasheets/Sensors/Temperature/DHT22.pdf}
 
-		# TODO Furthermore check if the current measured values
-		#  are outliers
+		#TODO Furthermore check if the current measured values
+		# are outliers
 
 		# check the range of temperature
 		if (-40 <= temperature <= 80) or temperature is not None:
