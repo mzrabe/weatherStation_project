@@ -3,10 +3,10 @@
 import time
 import sys
 import matplotlib
+# important to use on raspberry pi without display/monitor
+matplotlib.use('Agg')
 from weatherStation.util import logBME280, aneometer, logDHT22, plotChart
 from weatherStation.web import htmlInterface
-
-matplotlib.use('Agg')
 
 GROUP_CHART = ['--group-chart']
 WIND_CHART = ['--wind-chart']
