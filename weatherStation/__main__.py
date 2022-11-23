@@ -39,7 +39,7 @@ if __name__ == '__main__':
 			print('Print wind velocity chart.')
 			plotChart.plot_hour_wind_log_chart(
 				aneometer.hourly_average_wind_velocity(
-					aneometer.get24HouresData(time.time()),start=time.time()-24*60*60*1000, end=time.time()),
+					aneometer.get24HouresData(time.time()),start=(time.time()-24*60*60)*1000, end=time.time()*1000),
 					fileName='windChart.png',
 					title='Wind Velocity of last 24h')
 		elif s in HELP:
