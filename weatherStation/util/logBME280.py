@@ -15,13 +15,14 @@ import matplotlib.style
 # not running on a raspberry pi a dummy library will import
 # which simulate sensor data.
 if 'raspberrypi' in os.uname():
-	from weatherStation.util import bme280, humidity
+	from weatherStation.util import bme280
 else:
 	from weatherStation.util import SensorSimulator as bme280
 
 # Get the system specific configuration which are set up
 # individual from the system user.
 from weatherStation.config import configs
+from weatherStation.util import humidity
 
 matplotlib.style.use('grayscale')
 
