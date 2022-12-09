@@ -11,8 +11,8 @@ from weatherStation.util import aneometer
 
 INNER_TEMPERATURE = 'wall temperature'
 OUTER_TEMPERATURE = 'station temperature'
-INNER_HUMIDITY = 'wall humidity'
-OUTER_HUMIDITY = 'station humidity'
+INNER_HUMIDITY = 'wall abs. humidity'
+OUTER_HUMIDITY = 'station abs. humidity'
 PRESSURE = 'pressure'
 # name of configuration file
 CONFIG_FILE_NAME = 'configs'
@@ -61,7 +61,7 @@ def plot_humidity_chart(inner_humidity, outer_humidity, figsize=configs.fig_size
 
 	# set labels
 	ax.set_xlabel("time")
-	ax.set_ylabel(u'humidity [%]')
+	ax.set_ylabel(u'humidity [g/m³]')
 
 	# text size of the axes
 	tkw = dict(size=4, width=1.5)
@@ -116,15 +116,15 @@ def plot_group_chart(inner, outer, figsize=configs.fig_size_group, title=None, f
 	ax1.plot(inner[configs.TIMESTAMP], inner[configs.TEMPERATURE], 'r-', label=INNER_TEMPERATURE, linewidth=1)
 	ax1.plot(outer[configs.TIMESTAMP], outer[configs.TEMPERATURE], 'r--', label=OUTER_TEMPERATURE, linewidth=1)
 
-	ax2.plot(inner[configs.TIMESTAMP], inner[configs.HUMIDITY], 'g-', label=INNER_HUMIDITY, linewidth=1)
-	ax2.plot(outer[configs.TIMESTAMP], outer[configs.HUMIDITY], 'g--', label=OUTER_HUMIDITY, linewidth=1)
+	ax2.plot(inner[configs.TIMESTAMP], inner[configs.HUMIDITY_ABS], 'g-', label=INNER_HUMIDITY, linewidth=1)
+	ax2.plot(outer[configs.TIMESTAMP], outer[configs.HUMIDITY_ABS], 'g--', label=OUTER_HUMIDITY, linewidth=1)
 
 	ax3.plot(inner[configs.TIMESTAMP], inner[configs.PRESSURE], 'b-', label=PRESSURE, linewidth=1)
 
 	# set labels
 	plt.xlabel('time')
 	ax1.set_ylabel(u'temperature [°C]')
-	ax2.set_ylabel(u'humidity [%]')
+	ax2.set_ylabel(u'humidity [g/m³]')
 	ax3.set_ylabel(u'pressure [hPa]')
 
 	# text size of the axes

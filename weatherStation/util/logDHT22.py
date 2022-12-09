@@ -17,7 +17,7 @@ import matplotlib.style
 if 'raspberrypi' in os.uname():
 	import Adafruit_DHT
 else:
-	from weatherStation.util import SensorSimulator as Adafruit_DHT
+	from weatherStation.util import SensorSimulator as Adafruit_DHT, humidity
 
 # Get the system specific configuration which are set up
 # individual from the system user.
@@ -170,6 +170,19 @@ def get_24_hours_data(t2):
 		return data
 	else:
 		return data[mask]
+
+def get_24_hours_data_absulut(t2):
+	"""
+	@param t2 - current time in seconds
+	"""
+
+	# current data
+	data = get_24_hours_data(t2)
+
+	if len(data) <= 0:
+		return data
+	else:
+		return humidity.absolute_humidity_df(data)
 
 def get_data(starttime, endtime):
 	"""

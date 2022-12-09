@@ -17,6 +17,7 @@ TIMESTAMP = 'timestamp'
 TEMPERATURE = 'temperature'
 PRESSURE = 'pressure'
 HUMIDITY = 'humidity'
+HUMIDITY_ABS = 'humidity_abs'
 
 
 def getLogDirPath(name):

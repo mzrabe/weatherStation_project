@@ -20,8 +20,8 @@ if __name__ == '__main__':
 	for s in sys.argv[1:]:
 		if s in GROUP_CHART:
 			plotChart.plot_group_chart(
-				logBME280.get_24_hours_data(time.time()),
-				logDHT22.get_24_hours_data(time.time()),
+				logBME280.get_24_hours_data_absolut(time.time()),
+				logDHT22.get_24_hours_data_absolut(time.time()),
 				title='Temperature, pressure and humidity of last 24h')
 		elif s in LOG_DHT22:
 			print('Log DHT22 sensor.')

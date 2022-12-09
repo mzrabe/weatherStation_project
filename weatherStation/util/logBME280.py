@@ -15,7 +15,7 @@ import matplotlib.style
 # not running on a raspberry pi a dummy library will import
 # which simulate sensor data.
 if 'raspberrypi' in os.uname():
-	from weatherStation.util import bme280
+	from weatherStation.util import bme280, humidity
 else:
 	from weatherStation.util import SensorSimulator as bme280
 
@@ -134,6 +134,17 @@ def get_24_hours_data(t2):
 		return data
 	else:
 		return data[mask]
+
+def get_24_hours_data_absolut(t2):
+	"""
+	@param t2 - current time in seconds
+	"""
+	data = get_24_hours_data(t2)
+
+	if len(data) <= 0:
+		return data
+	else:
+		return humidity.absolute_humidity_df(data)
 
 
 def make_patch_spines_invisible(ax):
