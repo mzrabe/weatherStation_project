@@ -171,7 +171,7 @@ def get_24_hours_data(t2):
 	else:
 		return data[mask]
 
-def get_24_hours_data_absulut(t2):
+def get_24_hours_data_absolut(t2):
 	"""
 	@param t2 - current time in seconds
 	"""
