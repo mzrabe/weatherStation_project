@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 # IMPORTS
-import pandas as pd
 import time
 import matplotlib.pyplot as plt
 
@@ -187,8 +186,6 @@ def plot_hour_wind_log_chart(data, fileName=None, figsize=configs.fig_size, titl
 	labels[0].append(x_label_time)
 	labels[1].append(time.strftime('%H:%M', time.localtime(x_label_time / 1000.)))
 
-	# todo Den Part noch auslagern !!! In dieser Methode besser nur die Daten generieren.
-	# print 'Start plotting ...'
 	# Plot the wind velocity chart
 	fig = plt.figure(figsize=figsize)
 	ax = plt.subplot(111)
@@ -213,6 +210,43 @@ def plot_hour_wind_log_chart(data, fileName=None, figsize=configs.fig_size, titl
 	# get the mean date of the time values for the name of the file
 	if fileName is None:
 		fileName = 'hourValues_windlogs_' + time.strftime(aneometer.datePattern, time.localtime(
+			data[0][int(len(data[0]) / 2)] / 1000.)) + '.png'
+
+	print('savefig', configs.getLogDirPath(CONFIG_FILE_NAME) + fileName)
+
+	plt.savefig(configs.getLogDirPath(CONFIG_FILE_NAME) + fileName, format='png', bbox_inches='tight')
+	plt.close()
+
+def plot_wind_hist_chart(data, fileName=None, figsize=configs.fig_size_hist, title=None, nbins=20):
+	"""
+	Make a histogram plot of the given wind log data.
+
+	Parameters
+	----------
+	data : wind velocity values in [km/h]
+	fileName : file name of the chart to save
+	figsize : size of the chart in inches
+	title : title of the chart
+	"""
+
+	#print('number of vaules:',len(data))
+
+	# Plot the wind velocity chart
+	fig = plt.figure(figsize=figsize)
+	ax = plt.subplot(111)
+
+	if title is not None:
+		plt.title(title)
+
+	plt.xlabel('Wind velocity [km/h]')
+	#plt.ylabel('Probability density [%]')
+
+	ax.hist(data,nbins, density=True, facecolor='gray')
+	ax.get_yaxis().set_visible(False)
+
+	# get the mean date of the time values for the name of the file
+	if fileName is None:
+		fileName = 'wind_histogram_' + time.strftime(aneometer.datePattern, time.localtime(
 			data[0][int(len(data[0]) / 2)] / 1000.)) + '.png'
 
 	print('savefig', configs.getLogDirPath(CONFIG_FILE_NAME) + fileName)

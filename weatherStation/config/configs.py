@@ -6,7 +6,11 @@ import os
 import appdirs
 
 # size of the figure for the wind velocity and the pressure, humidity and temperature chart
-fig_size = (12, 4)
+# average wind velocity
+fig_size = (8, 4)
+# wind histogram
+fig_size_hist = (4,4)
+# group chart
 fig_size_group = (12, 8)
 
 ## CSV - field names

@@ -10,6 +10,7 @@ from weatherStation.web import htmlInterface
 
 GROUP_CHART = ['--group-chart']
 WIND_CHART = ['--wind-chart']
+WIND_HIST = ['--wind-hist']
 LOG_DHT22 = ['--log-dht22']
 LOG_BME280 = ['--log-bme280']
 LOG_WIND = ['--log-wind']
@@ -42,11 +43,19 @@ if __name__ == '__main__':
 					aneometer.get24HouresData(time.time()),start=(time.time()-24*60*60)*1000, end=time.time()*1000),
 					fileName='windChart.png',
 					title='Wind Velocity of last 24h')
+		elif s in WIND_HIST:
+			print('Print wind velocity histogram chart.')
+			plotChart.plot_wind_hist_chart(
+				aneometer.get24HouresWindData(time.time()),
+				fileName='windHist.png',
+				title='Wind velocity histogram of last 24h')
 		elif s in HELP:
 			print('Use one of the following commands.\n\n\t'
 				'--group-chart\t Plot a group chart (temperature, humidity and pressure\n\t'
 				' of the last 24 hours from the BME280 and the DHT22 sensor.\n'
 				'\t--wind-chart\tPlot a chart of the mean hour wind velocity of\n\t'
+				'the last 24 hours.\n'
+				'\t--wind-hist\tPlot a histogram of the wind velocity of\n\t'
 				'the last 24 hours.\n'
 				'\t--log-dht22\tRead the sensor data of the DHT22 and write the values\n\t'
 				'in the defined logging file.\n'
