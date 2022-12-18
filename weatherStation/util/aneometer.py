@@ -108,9 +108,11 @@ def getDataFromFile(fileName, pathToLogDir=configs.getLogDirPath(CONFIG_FILE_NAM
 
 	The method returns the times as numpy array of type float.
 	"""
-	data = np.genfromtxt(pathToLogDir + fileName, delimiter=',', dtype=float)
-
-	return data
+	try:
+		data = np.genfromtxt(pathToLogDir + fileName, delimiter=',', dtype=float)
+		return data
+	except FileNotFoundError:
+		return np.array([])
 
 
 ## functions for plotting the data
@@ -130,6 +132,28 @@ def get24HouresData(t2):
 
 	return np.append(data1[data1 >= t1 * 1e3], data2[data2 <= t2 * 1e3])
 
+def get24HouresWindData(t2):
+	"""
+	Calculate the wind velocity of each log data point of the last 24 hours.
+	Velocity(dataLog[1] - dataLog[0])
+
+	Parameters
+	----------
+	t2 : current tim in seconds since 1.1.1970
+
+	Returns
+	----------
+	@return - list with the wind velocity in [km/h], with the lenght of number of logs of the last 24 hours minus 1
+	"""
+	data = get24HouresData(t2)
+	if data.size == 0:
+		# in case there are no data in the time interval
+		return [];
+	else:
+		# calculate time difference
+		timeDiff = data[1:-1] - data[0:-2]
+		# calculate the wind velocity in [km/h]
+		return v(timeDiff) * 3.6
 
 def plotWindLogChart(data):
 	"""
@@ -186,10 +210,7 @@ def plotWindLogChart(data):
 
 def hourly_average_wind_velocity(data, start=None, end=None):
 	"""
-	Make a plot of the given wind log data. Before plotting the values averaging
-	before for each time interval.
-
-	@param data - time after the cup anemometer passed the sensor in [ms] since 1.1.1970
+	Calculate the hourly average wind velocity of the given log data.
 
 	Parameters
 	----------
@@ -202,7 +223,7 @@ def hourly_average_wind_velocity(data, start=None, end=None):
 
 	Returns
 	----------
-	@return - list with the hourly average wind velocity, [time, wind velocity]
+	@return - list with the hourly average wind velocity, [time in ms since 1.1.1970, wind velocity]
 	"""
 
 	if start == None:
